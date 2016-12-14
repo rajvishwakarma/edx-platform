@@ -17,6 +17,13 @@ HTTPS = 'off'
 
 ################################ LOGGERS ######################################
 
+# Docker does not support the syslog socket at /dev/log. Rely on the console.
+LOGGING['handlers']['local'] = LOGGING['handlers']['tracking'] = {
+    'class': 'logging.NullHandler',
+}
+
+LOGGING['loggers']['tracking']['handlers'] = ['console']
+
 import logging
 
 # Disable noisy loggers
@@ -30,7 +37,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 ################################# LMS INTEGRATION #############################
 
-LMS_BASE = "localhost:8000"
+LMS_BASE = "edx.devstack.edxapp:18000"
 LMS_ROOT_URL = "http://{}".format(LMS_BASE)
 FEATURES['PREVIEW_LMS_BASE'] = "preview." + LMS_BASE
 
@@ -127,11 +134,11 @@ FEATURES['CERTIFICATES_HTML_VIEW'] = True
 REQUIRE_DEBUG = DEBUG
 
 ########################### OAUTH2 #################################
-OAUTH_OIDC_ISSUER = 'http://127.0.0.1:8000/oauth2'
+OAUTH_OIDC_ISSUER = 'http://edx.devstack.edxapp:18000/oauth2'
 
 JWT_AUTH.update({
     'JWT_SECRET_KEY': 'lms-secret',
-    'JWT_ISSUER': 'http://127.0.0.1:8000/oauth2',
+    'JWT_ISSUER': OAUTH_OIDC_ISSUER,
     'JWT_AUDIENCE': 'lms-key',
 })
 

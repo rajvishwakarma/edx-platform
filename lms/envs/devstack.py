@@ -13,15 +13,22 @@ MEDIA_ROOT = "/edx/var/edxapp/uploads"
 DEBUG = True
 USE_I18N = True
 DEFAULT_TEMPLATE_ENGINE['OPTIONS']['debug'] = True
-SITE_NAME = 'localhost:8000'
+SITE_NAME = 'edx.devstack.edxapp:18000'
 PLATFORM_NAME = ENV_TOKENS.get('PLATFORM_NAME', 'Devstack')
 # By default don't use a worker, execute tasks as if they were local functions
 CELERY_ALWAYS_EAGER = True
 HTTPS = 'off'
 
-LMS_ROOT_URL = 'http://localhost:8000'
+LMS_ROOT_URL = 'http://edx.devstack.edxapp:18000'
 
 ################################ LOGGERS ######################################
+
+# Docker does not support the syslog socket at /dev/log. Rely on the console.
+LOGGING['handlers']['local'] = LOGGING['handlers']['tracking'] = {
+    'class': 'logging.NullHandler',
+}
+
+LOGGING['loggers']['tracking']['handlers'] = ['console']
 
 # Silence noisy logs
 import logging
@@ -128,7 +135,7 @@ CC_PROCESSOR = {
 
 ########################### External REST APIs #################################
 FEATURES['ENABLE_OAUTH2_PROVIDER'] = True
-OAUTH_OIDC_ISSUER = 'http://127.0.0.1:8000/oauth2'
+OAUTH_OIDC_ISSUER = 'http://127.0.0.1:18000/oauth2'
 FEATURES['ENABLE_MOBILE_REST_API'] = True
 FEATURES['ENABLE_VIDEO_ABSTRACTION_LAYER_API'] = True
 
@@ -215,7 +222,7 @@ if FEATURES.get('ENABLE_THIRD_PARTY_AUTH') and 'third_party_auth.dummy.DummyBack
     AUTHENTICATION_BACKENDS = ['third_party_auth.dummy.DummyBackend'] + list(AUTHENTICATION_BACKENDS)
 
 ############## ECOMMERCE API CONFIGURATION SETTINGS ###############
-ECOMMERCE_PUBLIC_URL_ROOT = "http://localhost:8002"
+ECOMMERCE_PUBLIC_URL_ROOT = "http://edx.devstack.ecommerce:18130"
 
 ###################### Cross-domain requests ######################
 FEATURES['ENABLE_CORS_HEADERS'] = True
@@ -267,7 +274,7 @@ Ld/IRK0DgpGP5EJRwpKsDYe/UQ==
 
 JWT_AUTH.update({
     'JWT_SECRET_KEY': 'lms-secret',
-    'JWT_ISSUER': 'http://127.0.0.1:8000/oauth2',
+    'JWT_ISSUER': 'http://edx.devstack.edxapp:18000/oauth2',
     'JWT_AUDIENCE': 'lms-key',
 })
 

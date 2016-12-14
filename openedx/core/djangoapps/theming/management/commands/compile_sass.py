@@ -18,6 +18,8 @@ class Command(BaseCommand):
     """
 
     help = 'Compile and collect themed assets...'
+    # TODO Determine how to use the command line flag for this
+    requires_system_checks = False
 
     def add_arguments(self, parser):
         """
