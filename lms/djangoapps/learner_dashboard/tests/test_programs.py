@@ -214,12 +214,8 @@ class TestProgramListing(ProgramsApiConfigMixin, CredentialsApiConfigMixin, Shar
         for index, actual_program in enumerate(actual):
             expected_program = self.data[index]
 
-            base = reverse('program_details_view', args=[expected_program['id']]).rstrip('/')
-            slug = slugify(expected_program['name'])
-            self.assertEqual(
-                actual_program['detail_url'],
-                '{}/{}'.format(base, slug)
-            )
+            expected = reverse('program_details_view', args=[expected_program['uuid']])
+            self.assertEqual(actual_program['detail_url'], expected)
 
     def test_certificates_listed(self):
         """

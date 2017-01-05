@@ -109,15 +109,14 @@ def get_programs_by_run(programs, enrollments):
         tuple, dict of programs keyed by course ID and list of course IDs themselves
     """
     programs_by_run = {}
-    # enrollment.course_id is really a course key (╯ಠ_ಠ）╯︵ ┻━┻
-    course_ids = [unicode(e.course_id) for e in enrollments]
+    enrolled_course_keys = [unicode(e.course_id) for e in enrollments]
 
     for program in programs:
-        for course_code in program['course_codes']:
-            for run in course_code['run_modes']:
-                run_id = run['course_key']
-                if run_id in course_ids:
-                    program_list = programs_by_run.setdefault(run_id, list())
+        for course in program['courses']:
+            for course_run in course['course_runs']:
+                course_run_key = course_run['key']
+                if course_run_key in enrolled_course_keys:
+                    program_list = programs_by_run.setdefault(course_run_key, list())
                     if program not in program_list:
                         program_list.append(program)
 
@@ -125,7 +124,7 @@ def get_programs_by_run(programs, enrollments):
     for program_list in programs_by_run.itervalues():
         program_list.sort(key=lambda p: p['name'])
 
-    return programs_by_run, course_ids
+    return programs_by_run, enrolled_course_keys
 
 
 def get_program_marketing_url(programs_config):
@@ -145,10 +144,7 @@ def attach_program_detail_url(programs):
         list, containing extended program dicts
     """
     for program in programs:
-        base = reverse('program_details_view', kwargs={'program_id': program['id']}).rstrip('/')
-        slug = slugify(program['name'])
-
-        program['detail_url'] = '{base}/{slug}'.format(base=base, slug=slug)
+        program['detail_url'] = reverse('program_details_view', kwargs={'program_id': program['uuid']})
 
     return programs
 
@@ -188,7 +184,7 @@ class ProgramProgressMeter(object):
         self.course_ids = None
         self.course_certs = None
 
-        self.programs = attach_program_detail_url(get_programs(self.user))
+        self.programs = attach_program_detail_url(get_catalog_programs(self.user))
 
     def engaged_programs(self, by_run=False):
         """Derive a list of programs in which the given user is engaged.
