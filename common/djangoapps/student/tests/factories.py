@@ -174,9 +174,12 @@ class ContentTypeFactory(DjangoModelFactory):
     class Meta(object):
         model = ContentType
 
+    app_label = factory.Faker('app_name')
+
 
 class PermissionFactory(DjangoModelFactory):
     class Meta(object):
         model = Permission
 
+    codename = factory.Faker('codename')
     content_type = factory.SubFactory(ContentTypeFactory)
