@@ -115,6 +115,7 @@ def get_programs_data(user=None):
     return programs_list
 
 
+# TODO: Remove this. Kept around for now as a reference.
 def munge_catalog_program(catalog_program):
     """Make a program from the catalog service look like it came from the programs service.
 
