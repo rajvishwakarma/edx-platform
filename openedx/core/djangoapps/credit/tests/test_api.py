@@ -11,7 +11,7 @@ from django.test.utils import override_settings
 from django.db import connection
 from nose.plugins.attrib import attr
 import httpretty
-from lms.djangoapps.commerce.tests import TEST_API_SIGNING_KEY, TEST_API_URL
+from lms.djangoapps.commerce.tests import TEST_API_URL
 import mock
 import pytz
 from opaque_keys.edx.keys import CourseKey
@@ -575,7 +575,6 @@ class CreditRequirementApiTests(CreditApiTestBase):
     @httpretty.activate
     @override_settings(
         ECOMMERCE_API_URL=TEST_API_URL,
-        ECOMMERCE_API_SIGNING_KEY=TEST_API_SIGNING_KEY,
         ECOMMERCE_SERVICE_WORKER_USERNAME=TEST_ECOMMERCE_WORKER
     )
     def test_satisfy_all_requirements(self):
@@ -1167,7 +1166,6 @@ class CreditProviderIntegrationApiTests(CreditApiTestBase):
 @skip_unless_lms
 @override_settings(
     ECOMMERCE_API_URL=TEST_API_URL,
-    ECOMMERCE_API_SIGNING_KEY=TEST_API_SIGNING_KEY,
     ECOMMERCE_SERVICE_WORKER_USERNAME=TEST_ECOMMERCE_WORKER
 )
 @ddt.ddt
