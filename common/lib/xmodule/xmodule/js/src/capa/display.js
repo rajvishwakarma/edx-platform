@@ -722,7 +722,7 @@
                         display = that.inputtypeDisplays[$(inputtype).attr('id')];
                         showMethod = that.inputtypeShowAnswerMethods[cls];
                         if (showMethod != null) {
-                            results.push(showMethod(inputtype, display, answers));
+                            results.push(showMethod(inputtype, display, answers, response.correct_status_html));
                         } else {
                             results.push(void 0);
                         }
@@ -1030,16 +1030,21 @@
         };
 
         Problem.prototype.inputtypeShowAnswerMethods = {
-            choicegroup: function(element, display, answers) {
-                var answer, choice, inputId, i, len, results, $element;
+            choicegroup: function(element, display, answers, correctStatusHtml) {
+                var answer, choice, inputId, i, len, results, $element, $inputLabel;
                 $element = $(element);
                 inputId = $element.attr('id').replace(/inputtype_/, '');
                 answer = answers[inputId];
                 results = [];
                 for (i = 0, len = answer.length; i < len; i++) {
                     choice = answer[i];
-                    results.push($element.find('#input_' + inputId + '_' + choice).parent('label').
-                        addClass('choicegroup_correct'));
+                    $inputLabel = $element.find('#input_' + inputId + '_' + choice).parent('label');
+                    // If the correct answer was already Submitted before "Show Answer" is selected,
+                    // the visual indication will already be present. In that case, don't do anything
+                    // to avoid duplicate checkmarks.
+                    if (!$inputLabel.hasClass('choicegroup_correct')) {
+                        results.push($inputLabel.addClass('choicegroup_correct').append(correctStatusHtml));
+                    }
                 }
                 return results;
             },

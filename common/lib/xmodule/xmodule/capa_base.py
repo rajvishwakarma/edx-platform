@@ -20,6 +20,7 @@ except ImportError:
 from pytz import utc
 
 from capa.capa_problem import LoncapaProblem, LoncapaSystem
+from capa.inputtypes import Status
 from capa.responsetypes import StudentInputError, ResponseError, LoncapaProblemError
 from capa.util import convert_files_to_filenames, get_inner_html_from_xpath
 from xblock.fields import Boolean, Dict, Float, Integer, Scope, String, XMLString
@@ -968,7 +969,13 @@ class CapaMixin(CapaFields):
                 new_answer = {answer_id: answers[answer_id]}
             new_answers.update(new_answer)
 
-        return {'answers': new_answers}
+        return {
+            'answers': new_answers,
+            'correct_status_html': self.runtime.render_template(
+                'status_span.html',
+                {'status': Status('correct', self.runtime.service(self, "i18n").ugettext)}
+            )
+        }
 
     # Figure out if we should move these to capa_problem?
     def get_problem(self, _data):
