@@ -671,6 +671,25 @@ def course_about(request, course_id):
         return render_to_response('courseware/course_about.html', context)
 
 
+@ensure_csrf_cookie
+@cache_if_anonymous()
+def program_detail(request, program_id):
+    """
+    Display the program's detail page.
+
+    Assumes the program_id is in a valid format.
+    """
+    context = {}
+    program = get_programs_data(request.user, program_id)
+
+    if not program:
+        raise Http404
+    else:
+        context['program'] = program
+
+    return render_to_response('courseware/program_detail.html', context)
+
+
 @transaction.non_atomic_requests
 @login_required
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
