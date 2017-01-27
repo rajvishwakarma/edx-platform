@@ -413,7 +413,7 @@ class ProblemPage(PageObject):
         """
         Check if correct answer/choice highlighted for choice group.
         """
-        xpath = '//fieldset/div[contains(@class, "field")][{0}]/label[contains(@class, "choicegroup_correct")]'
+        xpath = '//fieldset/div[contains(@class, "field")][{0}]/label[contains(@class, "choicegroup_correct")]/span[contains(@class, "status correct")]'
         for choice in correct_choices:
             if not self.q(xpath=xpath.format(choice)).is_present():
                 return False

@@ -681,17 +681,8 @@
                 var answers;
                 answers = response.answers;
                 $.each(answers, function(key, value) {
-                    var answer, choice, i, len, results;
-                    if ($.isArray(value)) {
-                        results = [];
-                        for (i = 0, len = value.length; i < len; i++) {
-                            choice = value[i];
-                            results.push(that.$('label[for="input_' + key + '_' + choice + '"]').attr({
-                                correct_answer: 'true'
-                            }));
-                        }
-                        return results;
-                    } else {
+                    var answer;
+                    if (!$.isArray(value)) {
                         answer = that.$('#answer_' + key + ', #solution_' + key);
                         edx.HtmlUtils.setHtml(answer, edx.HtmlUtils.HTML(value));
                         Collapsible.setCollapsibles(answer);
