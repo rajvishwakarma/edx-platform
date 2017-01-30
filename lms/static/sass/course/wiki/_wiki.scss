@@ -238,7 +238,7 @@ section.wiki {
 
       .label {
         font-size: 0.7em;
-        color: #aaa;
+        color: $uxpl-gray-base;
         text-transform: uppercase;
       }
 
@@ -261,8 +261,8 @@ section.wiki {
         line-height: 25px;
 
         &:hover, &:focus {
-          background-color: $gray-l6;
-          text-decoration: none;
+          color: $uxpl-blue-hover-active;
+          background-color: $light-gray1;
         }
       }
     }
@@ -276,9 +276,11 @@ section.wiki {
     li {
       &.active {
         a {
-          color: $link-color;
+          color: $uxpl-blue-hover-active;
           font-weight: bold;
-          background-color: $gray-l4;
+          background-color: $light-gray1;
+          border-color: $uxpl-blue-hover-active;
+          border-left: 4px solid
         }
       }
     }
@@ -301,8 +303,8 @@ section.wiki {
       }
 
       &:hover, &:focus {
-        background-color: $gray-l6;
-        text-decoration: none;
+        color: $uxpl-blue-hover-active;
+        background-color: $light-gray1;
       }
     }
   }

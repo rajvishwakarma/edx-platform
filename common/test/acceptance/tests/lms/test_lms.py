@@ -543,7 +543,6 @@ class PayAndVerifyTest(EventsTestMixin, UniqueCourseTest):
         self.assertEqual(enrollment_mode, 'verified')
 
 
-@attr(shard=1)
 class CourseWikiTest(UniqueCourseTest):
     """
     Tests that verify the course wiki.
@@ -580,6 +579,7 @@ class CourseWikiTest(UniqueCourseTest):
         self.course_wiki_page.open_editor()
         self.course_wiki_edit_page.wait_for_page()
 
+    @attr(shard=1)
     def test_edit_course_wiki(self):
         """
         Wiki page by default is editable for students.
@@ -595,6 +595,13 @@ class CourseWikiTest(UniqueCourseTest):
         self.course_wiki_edit_page.save_wiki_content()
         actual_content = unicode(self.course_wiki_page.q(css='.wiki-article p').text[0])
         self.assertEqual(content, actual_content)
+
+    @attr('a11y')
+    def test_a11y(self):
+        """
+        Verify the basic accessibility of the wiki page as initially displayed.
+        """
+        self.course_wiki_page.a11y_audit.check_for_accessibility_errors()
 
 
 @attr(shard=1)
