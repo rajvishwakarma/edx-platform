@@ -64,6 +64,8 @@ function($, Backbone, _, gettext, HtmlUtils, StringUtils, XBlockUtils, MoveXBloc
                 )
             );
             Backbone.trigger('move:childsInfoRendered', this.breadcrumbInfo());
+            debugger;
+            Backbone.trigger('move:enableMoveOperation', this.parent_info.parent);
             return this;
         },
 
@@ -108,13 +110,8 @@ function($, Backbone, _, gettext, HtmlUtils, StringUtils, XBlockUtils, MoveXBloc
                 this.childs_info.childs = [];
             }
 
-            this.validateMoveOperation();
             this.setDisplayedXBlocksCategories();
             this.render();
-        },
-
-        validateMoveOperation: function() {
-            Backbone.trigger('move:validateMoveOperation', this.parent_info.parent);
         },
 
         setDisplayedXBlocksCategories: function() {
