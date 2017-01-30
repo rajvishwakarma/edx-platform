@@ -1040,10 +1040,9 @@
                     if ($inputStatus.hasClass('unanswered')) {
                         $inputStatus.removeAttr('class').addClass('status correct');
                         $inputLabel.addClass('choicegroup_correct');
-                    }
-                    // If the status HTML is not already present (due to clicking Submit), append
-                    // the status HTML for correct answers. 
-                    else if (!$inputLabel.hasClass('choicegroup_correct')) {
+                    } else if (!$inputLabel.hasClass('choicegroup_correct')) {
+                        // If the status HTML is not already present (due to clicking Submit), append
+                        // the status HTML for correct answers.
                         results.push($inputLabel.addClass('choicegroup_correct').append(correctStatusHtml));
                     }
                 }

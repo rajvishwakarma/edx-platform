@@ -421,7 +421,7 @@ class ProblemPage(PageObject):
 
             # Check that there is only a single status span, as there were some bugs with multiple
             # spans (with various classes) being appended.
-            if not len(self.q(xpath=any_status_xpath.format(choice)).results) ==  1:
+            if not len(self.q(xpath=any_status_xpath.format(choice)).results) == 1:
                 return False
 
         return True
