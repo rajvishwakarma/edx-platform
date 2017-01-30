@@ -938,10 +938,10 @@
                     var $status;
                     $status = $('#status_' + id);
                     if ($status[0]) {
-                        $status.removeAttr('class').addClass('unanswered');
+                        $status.removeAttr('class').addClass('status unanswered');
                     } else {
                         $('<span>', {
-                            class: 'unanswered',
+                            class: 'status unanswered',
                             style: 'display: inline-block;',
                             id: 'status_' + id
                         });
@@ -1022,7 +1022,7 @@
 
         Problem.prototype.inputtypeShowAnswerMethods = {
             choicegroup: function(element, display, answers, correctStatusHtml) {
-                var answer, choice, inputId, i, len, results, $element, $inputLabel;
+                var answer, choice, inputId, i, len, results, $element, $inputLabel, $inputStatus;
                 $element = $(element);
                 inputId = $element.attr('id').replace(/inputtype_/, '');
                 answer = answers[inputId];
@@ -1030,10 +1030,20 @@
                 for (i = 0, len = answer.length; i < len; i++) {
                     choice = answer[i];
                     $inputLabel = $element.find('#input_' + inputId + '_' + choice).parent('label');
-                    // If the correct answer was already Submitted before "Show Answer" is selected,
-                    // the visual indication will already be present. In that case, don't do anything
-                    // to avoid duplicate checkmarks.
-                    if (!$inputLabel.hasClass('choicegroup_correct')) {
+                    $inputStatus = $inputLabel.find('#status_' + inputId);
+                    // If the correct answer was already Submitted before "Show Answer" was selected,
+                    // the status HTML will already be present. Otherwise, inject the status HTML.
+
+                    // If the learner clicked a different answer after Submit, their submitted answers
+                    // will be marked as "unanswered". In that case, for correct answers update the
+                    // classes accordingly.
+                    if ($inputStatus.hasClass('unanswered')) {
+                        $inputStatus.removeAttr('class').addClass('status correct');
+                        $inputLabel.addClass('choicegroup_correct');
+                    }
+                    // If the status HTML is not already present (due to clicking Submit), append
+                    // the status HTML for correct answers. 
+                    else if (!$inputLabel.hasClass('choicegroup_correct')) {
                         results.push($inputLabel.addClass('choicegroup_correct').append(correctStatusHtml));
                     }
                 }
