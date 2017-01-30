@@ -1,5 +1,4 @@
-section.wiki {
-  padding-top: 25px;
+.wiki-wrapper section.wiki {
 
   .pull-left {
     float: left;
@@ -9,18 +8,15 @@ section.wiki {
     float: right;
   }
 
-  .wiki-wrapper {
-    @include clearfix();
+  @include clearfix();
 
-    > header {
-      height: 33px;
-      padding: 24px 0 26px;
-      border-bottom: 1px solid $gray-l3;
-      border-radius: 3px 3px 0 0;
-      background-color: $sidebar-color;
-    }
+  header {
+    height: 33px;
+    padding: 24px 0 26px;
+    border-bottom: 1px solid $gray-l3;
+    border-radius: 3px 3px 0 0;
+    background-color: $sidebar-color;
   }
-
 
 
   /*-----------------
@@ -125,10 +121,6 @@ section.wiki {
     Article
 
   -----------------*/
-
-  .article-wrapper {
-
-  }
 
   h1 {
     font-weight: bold;

@@ -597,11 +597,19 @@ class CourseWikiTest(UniqueCourseTest):
         self.assertEqual(content, actual_content)
 
     @attr('a11y')
-    def test_a11y(self):
+    def test_view_a11y(self):
         """
         Verify the basic accessibility of the wiki page as initially displayed.
         """
         self.course_wiki_page.a11y_audit.check_for_accessibility_errors()
+
+    @attr('a11y')
+    def test_edit_a11y(self):
+        """
+        Verify the basic accessibility of edit wiki page.
+        """
+        self._open_editor()
+        self.course_wiki_edit_page.a11y_audit.check_for_accessibility_errors()
 
 
 @attr(shard=1)
